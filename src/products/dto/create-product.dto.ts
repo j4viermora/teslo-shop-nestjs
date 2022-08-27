@@ -3,29 +3,34 @@ import { IsArray, IsIn, IsInt, IsNumber, IsOptional, IsPositive, IsString, MinLe
 export class CreateProductDto {
     @IsString()
     @MinLength(1)
-    title: string
+    readonly title: string
 
     @IsNumber()
     @IsPositive()
     @IsOptional()
-    price: number
+    readonly price: number
 
     @IsString()
     @IsOptional()
-    description: string
+    readonly description: string
 
     @IsString()
     @IsOptional()
-    slug?: string
+    readonly slug?: string
 
     @IsInt()
     @IsPositive()
-    stock: number
+    readonly stock: number
 
     @IsString({ each: true })
     @IsArray()
-    sizes: string[]
+    readonly sizes: string[]
 
     @IsIn(['male', 'female', 'children', 'unisex'])
-    gender: string
+    readonly gender: string
+
+    @IsString({ each: true })
+    @IsArray()
+    @IsOptional()
+    readonly tags: string[]
 }

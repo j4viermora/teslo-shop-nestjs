@@ -26,6 +26,12 @@ export class Product {
     @Column('enum', { enum: ['male', 'female', 'children', 'unisex'], default: 'unisex' })
     gender: string;
 
+    @Column('text', {
+        array: true,
+        default: []
+    })
+    tags: string[]
+
     @CreateDateColumn()
     createdAt: string
 
@@ -42,7 +48,12 @@ export class Product {
             .replaceAll("'", '')
     }
 
-    // @BeforeUpdate()
+    @BeforeUpdate()
+    checkSlugUpdate() {
+        this.slug = this.slug.toLowerCase()
+            .replaceAll(' ', '-')
+            .replaceAll("'", '')
+    }
 
 }
 

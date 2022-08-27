@@ -1,4 +1,4 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
+import { BeforeInsert, BeforeUpdate, Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
 
 @Entity()
 export class Product {
@@ -8,7 +8,7 @@ export class Product {
     @Column('text', { nullable: false, unique: true })
     title: string
 
-    @Column('numeric', { nullable: false, default: 0 })
+    @Column('float', { nullable: false, default: 0 })
     price: number;
 
     @Column('text', { nullable: true })
@@ -25,5 +25,24 @@ export class Product {
 
     @Column('enum', { enum: ['male', 'female', 'children', 'unisex'], default: 'unisex' })
     gender: string;
+
+    @CreateDateColumn()
+    createdAt: string
+
+    @UpdateDateColumn()
+    updatedAt: string
+
+    @BeforeInsert()
+    checkSlugInsert() {
+        if (!this.slug) {
+            this.slug = this.title
+        }
+        this.slug = this.slug.toLowerCase()
+            .replaceAll(' ', '-')
+            .replaceAll("'", '')
+    }
+
+    // @BeforeUpdate()
+
 }
 
